@@ -18,10 +18,6 @@
       url = "github:openstenoproject/plover_stroke";
       flake = false;
     };
-    plover-machine-hid = {
-      url = "github:dnaq/plover-machine-hid";
-      flake = false;
-    };
     plover2cat = {
       url = "github:greenwyrt/plover2CAT";
       flake = false;

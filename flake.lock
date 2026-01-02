@@ -32,22 +32,6 @@
         "type": "github"
       }
     },
-    "plover-machine-hid": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1757266704,
-        "narHash": "sha256-S+NBVnLjWdINTRpNIZvGotNGiMVSnvq1NZRPnKCmZyM=",
-        "owner": "dnaq",
-        "repo": "plover-machine-hid",
-        "rev": "db917f8b2545964fdaa2f664d1d1e2afafae96a1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dnaq",
-        "repo": "plover-machine-hid",
-        "type": "github"
-      }
-    },
     "plover-stroke": {
       "flake": false,
       "locked": {
@@ -117,7 +101,6 @@
       "inputs": {
         "nixpkgs": "nixpkgs",
         "plover": "plover",
-        "plover-machine-hid": "plover-machine-hid",
         "plover-stroke": "plover-stroke",
         "plover2cat": "plover2cat",
         "plover_plugins_registry": "plover_plugins_registry",
