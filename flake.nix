@@ -22,10 +22,6 @@
       url = "github:greenwyrt/plover2CAT";
       flake = false;
     };
-    pyobjc = {
-      url = "github:ronaldoussoren/pyobjc/v11.0";
-      flake = false;
-    };
   };
 
   outputs =
