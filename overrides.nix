@@ -100,9 +100,10 @@ final: prev: {
       spylls
       obsws-python
     ];
-
-    # AttributeError: module 'plover_build_utils.pyqt' has no attribute 'fix_icons'
-    meta.broken = true;
+    postPatch = ''
+      substituteInPlace "setup.cfg" --replace-fail "PySide6-Essentials" "PySide6"
+      sed -i '/PySide6-Addons/d' 'setup.cfg'
+    '';
   };
 
   plover-1password = prev.plover-1password.overridePythonAttrs (old: {
