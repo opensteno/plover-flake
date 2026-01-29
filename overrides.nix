@@ -399,11 +399,8 @@ final: prev: {
   });
 
   plover-stenohid-test = prev.plover-stenohid-test.overridePythonAttrs (old: {
-    nativeBuildInputs = [ setuptools-scm ];
-    dependencies = [
-      hidapi
-      pyudev
-    ];
+    # plover-hid with automatic reconnect is in plover now
+    meta.broken = true;
   });
 
   # plover-stenotype-extended
