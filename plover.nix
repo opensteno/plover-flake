@@ -16,7 +16,7 @@
   certifi,
   cmarkgfm,
   evdev,
-  hid,
+  hidapi,
   psutil,
   pyside6,
   pyserial,
@@ -36,6 +36,13 @@
   pyobjc-framework-Quartz,
 }:
 let
+  # python-hidraw does not use hidapi by default
+  # even though the documentation says that it should
+  hidapi-hidraw = hidapi.overrideAttrs (old: {
+    env = old.env // {
+      HIDAPI_WITH_HIDRAW = true;
+    };
+  });
   plover-stroke = buildPythonPackage {
     pname = "plover_stroke";
     version = "master";
@@ -88,7 +95,7 @@ buildPythonPackage {
 
   dependencies = [
     babel
-    hid
+    hidapi-hidraw
     pyside6
     xlib
     pyserial
