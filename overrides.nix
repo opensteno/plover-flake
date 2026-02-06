@@ -103,6 +103,7 @@ final: prev: {
     postPatch = ''
       substituteInPlace "setup.cfg" --replace-fail "PySide6-Essentials" "PySide6"
       sed -i '/PySide6-Addons/d' 'setup.cfg'
+      substituteInPlace "pyproject.toml" --replace-fail "plover[gui_qt]>=5.0.0.dev2" "plover"
     '';
   };
 
@@ -134,6 +135,12 @@ final: prev: {
   # plover-clippy
   # plover-clippy-2
   # plover-clr-trans-state
+
+  plover-combo = prev.plover-combo.overridePythonAttrs (old: {
+    postPatch = ''
+      substituteInPlace "pyproject.toml" --replace-fail "plover[gui_qt]>=5.0.0.dev2" "plover"
+    '';
+  });
 
   # plover-comment
 

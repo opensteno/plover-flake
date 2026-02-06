@@ -155,13 +155,8 @@ buildPythonPackage {
     "plover_build_utils"
   ];
 
-  # PySide6-Essentials it not on nixpkgs. See: https://github.com/NixOS/nixpkgs/issues/277849
-  # In addition, plover requires xkbcommon<1.1, but nixpkgs has 1.5.1
+  # plover requires xkbcommon<1.1, but nixpkgs has 1.5.1
   postPatch = ''
-    substituteInPlace "pyproject.toml" --replace-fail "PySide6-Essentials" "PySide6"
-    substituteInPlace "reqs/setup.txt" --replace-fail "PySide6-Essentials" "PySide6"
-    substituteInPlace "reqs/dist_extra_gui_qt.txt" --replace-fail "PySide6-Essentials" "PySide6"
-    substituteInPlace "reqs/constraints.txt" --replace-fail "PySide6-Essentials" "PySide6"
     substituteInPlace "reqs/dist.txt" --replace-fail "xkbcommon<1.1;" "xkbcommon<=1.5.1;"
   '';
 
