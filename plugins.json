@@ -7,9 +7,9 @@
   },
   {
     "name": "plover2cat",
-    "filename": "plover2cat-4.0.3.tar.gz",
-    "version": "4.0.3",
-    "sha256": "8f607ff67a023bbb7f808728d87358e381ecbf009850221628c8f5aa2f2f7ce2"
+    "filename": "plover2cat-4.0.4.tar.gz",
+    "version": "4.0.4",
+    "sha256": "cd91a75e0cf34b66537c67ba350808f5990e9e13da00ccd5afb2ea08024fb3fc"
   },
   {
     "name": "plover-1password",
