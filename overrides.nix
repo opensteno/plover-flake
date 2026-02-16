@@ -439,6 +439,10 @@ final: prev: {
     meta.broken = true;
   });
 
+  plover-touch-tablets = prev.plover-touch-tablets.overridePythonAttrs (old: {
+    meta.broken = true;
+  });
+
   plover-uinput = prev.plover-uinput.overridePythonAttrs (old: {
     dependencies = [
       evdev
