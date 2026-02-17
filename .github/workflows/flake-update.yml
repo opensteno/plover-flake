@@ -26,7 +26,7 @@ jobs:
           git add plugins.json && git commit -m 'update plugins.json' || true
       - name: Build flake
         run: |
-          nix build plover-full --show-trace
+          nix build .#plover-full --show-trace
       - name: Push to main
         run: |
           git push
