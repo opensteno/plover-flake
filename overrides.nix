@@ -34,6 +34,7 @@
   pypandoc,
   pyparsing,
   pysdl2,
+  pystardict,
   pystray,
   python-rtmidi,
   pyudev,
@@ -98,6 +99,7 @@ final: prev: {
       dulwich
       odfpy
       pyparsing
+      pystardict
       spylls
       obsws-python
     ];
