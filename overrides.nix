@@ -391,9 +391,6 @@ final: prev: {
 
   plover-spanish-mqd = prev.plover-spanish-mqd.overridePythonAttrs (old: {
     dependencies = [ final.plover-python-dictionary ];
-    postPatch = ''
-      substituteInPlace setup.cfg --replace-fail 'plover~=4.0.0.dev10' plover
-    '';
   });
 
   plover-spanish-system-eo-variant = prev.plover-spanish-system-eo-variant.overridePythonAttrs (old: {

@@ -469,9 +469,9 @@
   },
   {
     "name": "plover-spanish-mqd",
-    "filename": "plover_spanish_mqd-2.1.7.tar.gz",
-    "version": "2.1.7",
-    "sha256": "397b957656c266fd2338f2814dfa09a9733a289996888e5a26f9ee6972caa0dd"
+    "filename": "plover_spanish_mqd-3.0.0.tar.gz",
+    "version": "3.0.0",
+    "sha256": "9276f26460a8d1b91dcff4a13c5d7c93d223d74835152bf5ef09b17442c93388"
   },
   {
     "name": "plover-spanish-system-eo-variant",
