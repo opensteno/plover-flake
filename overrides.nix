@@ -88,6 +88,10 @@ in
 final: prev: {
   # alleycat-link
 
+  plover-pinchord = prev.plover-pinchord.overridePythonAttrs (old: {
+    dependencies = [ final.plover-python-dictionary ];
+  });
+
   plover2cat = buildPythonPackage {
     pname = "plover2cat";
     version = "master";
