@@ -42,10 +42,21 @@ inputs.plover-flake.packages.${system}.plover.withPlugins (ps: with ps; [
 
 `ps` is an attribute set containing every plugin from the registry.
 
+Under the hood, `withPlugins` composes a Python environment (`python3.withPackages`) containing Plover and the selected plugins, so adding or removing plugins never rebuilds Plover itself. The underlying environment is exposed as `passthru.python-env`.
+
 Alternatively, use the `plover-full` package, which bundles every non-broken plugin:
 
 ```nix
 inputs.plover-flake.packages.${system}.plover-full
+```
+
+If you prefer composing your own `nixpkgs`, the flake also exports `overlays.default`, which injects `plover` and `ploverPlugins` into every Python package set (`python3Packages.plover`, `python3Packages.ploverPlugins`, ...):
+
+```nix
+import nixpkgs {
+  inherit system;
+  overlays = [ inputs.plover-flake.overlays.default ];
+}
 ```
 
 ## home-manager module

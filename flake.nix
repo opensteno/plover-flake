@@ -37,6 +37,18 @@
       inherit (nixpkgs) lib;
       systems = lib.systems.flakeExposed;
 
+      # Inject Plover and its plugins into the Python package sets, so that they
+      # are built against the same fixed point as the rest of the set
+      # (e.g., `pyside6` and `qt6` with the Darwin fixes below).
+      ploverOverlay = _final: prev: {
+        pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+          (pyFinal: _pyPrev: {
+            plover = pyFinal.callPackage ./plover.nix { inherit inputs; };
+            ploverPlugins = pyFinal.callPackage ./plugins.nix { inherit inputs; };
+          })
+        ];
+      };
+
       # [HACK]
       # Override cctools `ld` with LLVM's `lld` to avoid Qt 6.11 modules with naive Darwin plugins such as WebKit.
       # We patch `python.pkgs.qt6` rather than `pkgs.qt6`, because `overrideScope` on the latter drops its `.override`,
@@ -74,11 +86,16 @@
           ];
         };
 
+      overlays.default = lib.composeManyExtensions [
+        ploverOverlay
+        qtLldDarwinOverlay
+      ];
+
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {
           inherit system;
-          overlays = [ qtLldDarwinOverlay ];
+          overlays = [ overlays.default ];
         }
       );
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
@@ -87,6 +104,8 @@
       );
     in
     {
+      inherit overlays;
+
       devShells = forEachSystem (pkgs: {
         default = pkgs.mkShell {
           packages = with pkgs; [
@@ -105,46 +124,26 @@
         formatting = treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check self;
       });
 
-      ploverPlugins = forEachSystem (
-        pkgs:
-        pkgs.python3Packages.callPackage ./plugins.nix {
-          plover = pkgs.python3Packages.callPackage ./plover.nix { inherit inputs; };
-          inherit inputs;
-        }
-      );
+      ploverPlugins = forEachSystem (pkgs: pkgs.python3Packages.ploverPlugins);
 
       packages = forEachSystem (pkgs: rec {
         default = plover;
         plover =
           let
-            plover' = pkgs.python3Packages.callPackage ./plover.nix { inherit inputs; };
-            withPlugins =
-              f: # f is a function such as (ps: with ps; [ plugin names ])
-              plover'.overridePythonAttrs (old: {
-                dependencies = old.dependencies ++ (f self.ploverPlugins.${pkgs.stdenv.hostPlatform.system});
-              });
+            inherit (pkgs) python3Packages;
+            withPlugins = pkgs.callPackage ./with-plugins.nix { };
           in
-          plover' // { inherit withPlugins; };
+          (python3Packages.toPythonApplication python3Packages.plover) // { inherit withPlugins; };
 
         plover-full =
           let
-            availablePloverPlugins = builtins.filter (x: x ? meta && !x.meta.broken) (
-              builtins.attrValues self.ploverPlugins.${pkgs.stdenv.hostPlatform.system}
-            );
-            plover' = pkgs.python3Packages.callPackage ./plover.nix { inherit inputs; };
-            plover'' = plover'.overridePythonAttrs (old: {
-              dependencies = old.dependencies ++ availablePloverPlugins;
-            });
+            availablePlugins =
+              plugins: builtins.filter (x: x ? meta && !x.meta.broken) (builtins.attrValues plugins);
             withPlugins =
               f: # f is a function such as (ps: with ps; [ plugin names ])
-              plover'.overridePythonAttrs (old: {
-                dependencies =
-                  old.dependencies
-                  ++ availablePloverPlugins
-                  ++ (f self.ploverPlugins.${pkgs.stdenv.hostPlatform.system});
-              });
+              plover.withPlugins (plugins: availablePlugins plugins ++ f plugins);
           in
-          plover'' // { inherit withPlugins; };
+          plover.withPlugins availablePlugins // { inherit withPlugins; };
 
         update = pkgs.callPackage ./update.nix { inherit inputs; };
       });

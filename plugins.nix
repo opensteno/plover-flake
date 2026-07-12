@@ -8,32 +8,46 @@
   inputs,
 }:
 let
-  inherit (lib) extends;
-  plugins = builtins.fromJSON (builtins.readFile ./plugins.json);
+  pluginSpecs = builtins.fromJSON (builtins.readFile ./plugins.json);
+
+  # Call `buildPythonPackage` for each package with default values in `plugins.json` and
+  # custom values in `overrides.nix`. `fixes` is either an attrset or a override function.
   makePloverPlugin =
-    plugin:
-    (buildPythonPackage rec {
-      pname = plugin.name;
-      inherit (plugin) version;
-      src = fetchPypi {
-        inherit version;
-        pname = lib.lists.head (builtins.split "-[0-9]" plugin.filename);
-        inherit (plugin) sha256;
+    spec: fixes:
+    let
+      defaults = {
+        pname = spec.name;
+        inherit (spec) version;
+        src = fetchPypi {
+          pname = lib.lists.head (builtins.split "-[0-9]" spec.filename);
+          inherit (spec) version sha256;
+        };
+        pyproject = true;
+        build-system = [ setuptools ];
+        buildInputs = [ plover ];
       };
-      buildInputs = [ plover ];
-      pyproject = true;
-      build-system = [ setuptools ];
-    });
-  pluginToAttr = p: {
-    name = p.pname;
-    value = p;
-  };
-  basicPlugins =
-    final: prev: builtins.listToAttrs (map (p: pluginToAttr (makePloverPlugin p)) plugins);
-  overrides = callPackage ./overrides.nix { inherit plover inputs; };
+    in
+    buildPythonPackage (defaults // (if lib.isFunction fixes then fixes defaults else fixes));
 
-  initialPackages = self: callPackage ./extra-plugins.nix { inherit plover inputs; };
-
-  extensible-self = lib.makeExtensible (extends overrides (extends basicPlugins initialPackages));
+  makePlugins =
+    self:
+    let
+      overrides = callPackage ./overrides.nix { inherit inputs; } self;
+      registryPlugins = builtins.listToAttrs (
+        map (spec: {
+          inherit (spec) name;
+          value = makePloverPlugin spec (overrides.${spec.name} or { });
+        }) pluginSpecs
+      );
+      # Every override must correspond to a registry entry; this catches typos
+      # and plugins removed from the registry.
+      danglingOverrides = builtins.filter (name: !(registryPlugins ? ${name})) (
+        builtins.attrNames overrides
+      );
+    in
+    assert lib.assertMsg (
+      danglingOverrides == [ ]
+    ) "overrides.nix contains entries for plugins not in plugins.json: ${toString danglingOverrides}";
+    registryPlugins;
 in
-extensible-self
+lib.makeExtensible makePlugins
