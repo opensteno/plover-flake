@@ -385,6 +385,12 @@ final: prev: {
         --replace-fail "from PyQt5" "from PySide6" \
         --replace-fail "ICON = 'asset:plover_sound:icon.svg'" \
           "ICON = os.path.join(os.path.dirname(__file__), 'icon.svg')"
+      # Prefer `asset:` URI and do not preserve absolute path to `/nix/store`
+      substituteInPlace plover_sound/extension.py \
+        --replace-fail "   default_sample_path = resource_filename(default_sample_path)" \
+          "   pass" \
+        --replace-fail "raise Exception(\"Couldn't find audio sample file\")" \
+          "self.sample_path = default_sample_path"
     '';
   });
 
