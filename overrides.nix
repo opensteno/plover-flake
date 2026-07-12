@@ -338,14 +338,7 @@ final: prev: {
   # plover-portuguese
   # plover-python-dictionary
   # plover-q-and-a
-
-  plover-regenpfeifer = prev.plover-regenpfeifer.overridePythonAttrs (old: {
-    dependencies = [
-      pygame
-      numpy
-    ];
-  });
-
+  # plover-regenpfeifer
   # plover-retro-case
   # plover-retro-everything
   # plover-retro-quotes
