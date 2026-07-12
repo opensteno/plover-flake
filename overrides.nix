@@ -219,6 +219,7 @@ final: prev: {
     in
     prev.plover-emoji.overridePythonAttrs (old: {
       dependencies = [
+        # pkg_resources is injected via `plover.nix`
         simplefuzzyset
       ];
     });

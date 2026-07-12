@@ -1,5 +1,6 @@
 {
   buildPythonPackage,
+  fetchPypi,
   inputs,
   lib,
   pkgs,
@@ -17,6 +18,8 @@
   cmarkgfm,
   evdev,
   hidapi,
+  jaraco-text,
+  platformdirs,
   psutil,
   pyside6,
   pyserial,
@@ -37,6 +40,30 @@
   pyobjc-framework-Quartz,
 }:
 let
+  # For stale packages:
+  pkg-resources = buildPythonPackage {
+    pname = "pkg-resources";
+    version = "80.9.0";
+    format = "other";
+    src = fetchPypi {
+      pname = "setuptools";
+      version = "80.9.0";
+      hash = "sha256-82tHQC7N52jb+vxG6OQge0NgxlTx87uER18KKGKPsZw=";
+    };
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/${pkgs.python3.sitePackages}"
+      cp -r pkg_resources "$out/${pkgs.python3.sitePackages}/"
+      runHook postInstall
+    '';
+    # setuptools 80.9.0 de-vendored pkg_resources; these are its real runtime imports.
+    dependencies = [
+      packaging
+      jaraco-text
+      platformdirs
+    ];
+  };
+
   # python-hidraw does not use hidapi by default
   # even though the documentation says that it should
   hidapi-hidraw = hidapi.overrideAttrs (old: {
@@ -103,6 +130,7 @@ buildPythonPackage {
     appdirs
     wcwidth
     setuptools
+    pkg-resources # for stale packages (TODO: delete it)
     certifi
     packaging
     pkginfo
