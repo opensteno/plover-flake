@@ -210,7 +210,16 @@ buildPythonPackage {
 
   # See: https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/qt.section.md
   dontWrapQtApps = true;
-  preFixup = ''
-    wrapQtApp "$out/bin/plover"
-  '';
+  preFixup =
+    let
+      # PassThrough keeps fractional scale factors instead of rounding them
+      qtLinuxFlags = lib.optionalString stdenvNoCC.hostPlatform.isLinux (
+        lib.concatStringsSep " " [
+          ''--set QT_QPA_PLATFORM "wayland;xcb"''
+        ]
+      );
+    in
+    ''
+      wrapQtApp "$out/bin/plover" ${qtLinuxFlags}
+    '';
 }
