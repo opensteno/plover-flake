@@ -30,7 +30,7 @@
   plover,
   prompt-toolkit,
   pyfiglet,
-  pygame,
+  pygame-ce,
   pypandoc,
   pyparsing,
   pysdl2,
@@ -375,10 +375,11 @@ final: prev: {
       sha256 = "sha256-ZVn54enmC8ouxMTRHeNVudHSZUpUsDCMpUEQQunVjS4=";
     };
     dependencies = [
-      pygame
+      pygame-ce
       numpy
     ];
     postPatch = ''
+      substituteInPlace setup.cfg --replace-fail 'pygame' 'pygame-ce'
       substituteInPlace plover_sound/tool.py \
         --replace-fail "from PyQt5" "from PySide6" \
         --replace-fail "ICON = 'asset:plover_sound:icon.svg'" \
