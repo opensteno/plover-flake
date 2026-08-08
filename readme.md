@@ -103,6 +103,14 @@ services.udev.extraRules = ''
 users.users."YOUR USER".extraGroups = [ "input" ];
 ```
 
+If you use Plover HID, add rule for hidraw access as well:
+
+```nix
+services.udev.extraRules = ''
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="dialout"
+'';
+```
+
 ## Troubleshooting
 
 If a specific plugin fails to build it is most likely because of a missing dependency. In that case that dependency can be added to `overrides.nix`, any pull requests doing so are welcome.
