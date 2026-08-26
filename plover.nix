@@ -3,7 +3,7 @@
   fetchPypi,
   inputs,
   lib,
-  pkgs,
+  python,
   stdenvNoCC,
   qt6,
   writeShellScriptBin,
@@ -52,8 +52,8 @@ let
     };
     installPhase = ''
       runHook preInstall
-      mkdir -p "$out/${pkgs.python3.sitePackages}"
-      cp -r pkg_resources "$out/${pkgs.python3.sitePackages}/"
+      mkdir -p "$out/${python.sitePackages}"
+      cp -r pkg_resources "$out/${python.sitePackages}/"
       runHook postInstall
     '';
     # setuptools 80.9.0 de-vendored pkg_resources; these are its real runtime imports.
@@ -111,7 +111,7 @@ buildPythonPackage {
   buildInputs = [
     qt6.qtsvg # required for rendering icons
   ]
-  ++ lib.optionals pkgs.stdenv.isLinux [
+  ++ lib.optionals stdenvNoCC.isLinux [
     qt6.qtwayland
   ];
 
