@@ -67,11 +67,11 @@
     "plover2cat": {
       "flake": false,
       "locked": {
-        "lastModified": 1784932789,
-        "narHash": "sha256-eJLeEhHKuCpAraKC55QqPbIsi34XDQI460bu/uGLMsQ=",
+        "lastModified": 1793477201,
+        "narHash": "sha256-PomGmirbg0+FNAM8qaoCkgmq84dmPxE4OcwIxfnK3MA=",
         "owner": "greenwyrt",
         "repo": "plover2CAT",
-        "rev": "1925c9e412896c4dd6e5581540a26da5b5a37600",
+        "rev": "4cd20f35dcd34c50d560aa68f1004158edb31116",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
     "plover_plugins_registry": {
       "flake": false,
       "locked": {
-        "lastModified": 1781383066,
-        "narHash": "sha256-Ua3rkxKl2meIpMffoVfphWEX1W8pfO0HKg7PPwlaxX0=",
+        "lastModified": 1793475758,
+        "narHash": "sha256-zUHz5AJTnVdUQvjUlpxVejz19+2bPGPYZuuo+oVfXdQ=",
         "owner": "openstenoproject",
         "repo": "plover_plugins_registry",
-        "rev": "cb0b36248c329642ae790f2f4a93f5e05c8b7c86",
+        "rev": "7e90626bc09b3ea1df5bc14da595dc47856c6ea2",
         "type": "github"
       },
       "original": {
