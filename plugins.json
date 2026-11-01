@@ -246,6 +246,12 @@
     "sha256": "40287aa71f0ea0438694f1ad1f97a85feff004e530b601af0d38924d5baf0915"
   },
   {
+    "name": "plover-melani-es",
+    "filename": "plover_melani_es-0.4.1.tar.gz",
+    "version": "0.4.1",
+    "sha256": "62786cf898cdd2cb1d89959c54ea33c67a5ec533abaa2d4393e4bcb589ff85e7"
+  },
+  {
     "name": "plover-merge-words",
     "filename": "plover_merge_words-0.1.1.tar.gz",
     "version": "0.1.1",
@@ -358,6 +364,12 @@
     "filename": "plover_plugins_manager-0.7.9.tar.gz",
     "version": "0.7.9",
     "sha256": "32b957391f579755156e2512dae01d163f01dc0e110458052a95e5b98c180631"
+  },
+  {
+    "name": "plover-polish-pss",
+    "filename": "plover_polish_pss-1.0.4.tar.gz",
+    "version": "1.0.4",
+    "sha256": "e1b30d2280457265c789c7e230434c38c51fceabca768b3030bd29114bed3e9b"
   },
   {
     "name": "plover-portuguese",

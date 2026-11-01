@@ -106,8 +106,6 @@ in
       obsws-python
     ];
     postPatch = ''
-      substituteInPlace "setup.cfg" --replace-fail "PySide6-Essentials" "PySide6"
-      sed -i '/PySide6-Addons/d' 'setup.cfg'
       substituteInPlace "pyproject.toml" --replace-fail "plover[gui_qt]>=5.0.0.dev2" "plover"
     '';
   };
@@ -206,6 +204,7 @@ in
   '';
 
   plover-melani.dependencies = [ plugins.plover-python-dictionary ];
+  plover-melani-es.dependencies = [ plugins.plover-python-dictionary ];
 
   plover-michela = {
     dependencies = [ plugins.plover-midi ];
