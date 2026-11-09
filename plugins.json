@@ -7,9 +7,9 @@
   },
   {
     "name": "plover2cat",
-    "filename": "plover2cat-4.2.0.tar.gz",
-    "version": "4.2.0",
-    "sha256": "21ec5f7aa6cc49dd65824ce4e052308d72e2f9afe72fa53094b2c2f12a494994"
+    "filename": "plover2cat-4.2.1.tar.gz",
+    "version": "4.2.1",
+    "sha256": "e15717d90ef2aa80d467535fe2d13ed9868c20287cfed2a3e911f74208c244f0"
   },
   {
     "name": "plover-1password",
@@ -121,9 +121,9 @@
   },
   {
     "name": "plover-dictionary-builder",
-    "filename": "plover_dictionary_builder-0.1.0.tar.gz",
-    "version": "0.1.0",
-    "sha256": "1c62308f6cd0f9ea8c05d9e324830883128c1983a89974ae968202f6ec1b3ac9"
+    "filename": "plover_dictionary_builder-1.0.0.tar.gz",
+    "version": "1.0.0",
+    "sha256": "f9ce73c10dce527444f652fd61e4045db779e5644f54214c9d1b8d24cc7e579c"
   },
   {
     "name": "plover-dictionary-patch",
